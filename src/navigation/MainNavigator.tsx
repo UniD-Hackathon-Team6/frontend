@@ -6,10 +6,24 @@ import CommunityScreen from "../community/CommunityScreen";
 import MypageScreen from "../mypage/MypageScreen";
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { createStackNavigator } from "@react-navigation/stack";
+import MapCertScreen from "../map/MapCertScreen";
+import CertCompletionScreen from "../map/CertCompletionScreen";
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
 export default function MainNavigator() {
+    return (
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="MainTabNavigator" component={MainTabNavigator} />
+            <Stack.Screen name="MapCertScreen" component={MapCertScreen} />
+            <Stack.Screen name="CertCompletionScreen" component={CertCompletionScreen} />
+        </Stack.Navigator>
+    );
+}
+
+function MainTabNavigator() {
     return (
         <Tab.Navigator screenOptions={{ headerShown: false, tabBarShowLabel: false }}>
             <Tab.Screen
