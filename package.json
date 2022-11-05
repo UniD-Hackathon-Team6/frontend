@@ -54,5 +54,17 @@
       "json",
       "node"
     ]
-  }
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UniD-Hackathon-Team6/frontend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UniD-Hackathon-Team6/frontend/issues"
+  },
+  "homepage": "https://github.com/UniD-Hackathon-Team6/frontend#readme",
+  "description": ""
 }
