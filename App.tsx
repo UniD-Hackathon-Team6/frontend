@@ -1,7 +1,15 @@
 import React from "react";
-import { SafeAreaView, Text } from "react-native";
 import 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
+import MainNavigator from "./src/navigation/MainNavigator";
+import { RecoilRoot } from 'recoil';
 
 export default function App() {
-  return <SafeAreaView><Text>uni-dthon team6</Text></SafeAreaView>
+  return (
+    <RecoilRoot>
+      <NavigationContainer>
+        <MainNavigator />
+      </NavigationContainer>
+    </RecoilRoot>
+  );
 }
