@@ -70,5 +70,7 @@
 		<string>Zocial.ttf</string>
 		<string>Fontisto.ttf</string>
 	</array>
+	<key>KAKAO_APP_KEY</key>
+	<string>7789e2b19301c0ec62e3846be40eb431</string>
 </dict>
 </plist>
