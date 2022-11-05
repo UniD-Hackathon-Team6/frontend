@@ -3,6 +3,8 @@ apply plugin: "com.android.application"
 import com.android.build.OutputFile
 import org.apache.tools.ant.taskdefs.condition.Os
 
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
  * and bundleReleaseJsAndAssets).
@@ -249,6 +251,9 @@ android {
 }
 
 dependencies {
+    implementation 'com.naver.maps:map-sdk:3.16.0'
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
+    
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     //noinspection GradleDynamicVersion
