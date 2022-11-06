@@ -1,4 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
 import React from "react";
 import { Modal, SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import { useRecoilValue } from "recoil";
@@ -44,7 +45,14 @@ export default function MapBottomSheet({ visible, setVisible }: MapBottomSheetPr
                         </View>
                         <Text style={{ fontSize: 28, fontWeight: 'bold', color: LEVEL_COLOR[Math.min(data.level, LEVEL_COLOR.length) - 1] }}>{'Lv. ' + data.level}</Text>
                         <TouchableOpacity style={{ backgroundColor: '#0496FF', borderRadius: 20, width: '85%', justifyContent: 'center' }}
-                            onPress={() => { setVisible(false); navi.navigate('MapCertScreen') }}>
+                            onPress={() => {
+                                axios.post('http://ec2-13-124-212-12.ap-northeast-2.compute.amazonaws.com:8000/stamps', {
+                                    "user_id": 0,
+                                    "place_id": data.id,
+                                })
+                                setVisible(false);
+                                navi.navigate('MapCertScreen')
+                            }}>
                             <Text style={{ color: '#FFF', textAlign: 'center', paddingVertical: 12, fontWeight: 'bold', }}>완료</Text>
                         </TouchableOpacity>
                     </View>
