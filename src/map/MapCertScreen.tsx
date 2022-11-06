@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import { ActivityIndicator, Alert, Keyboard, Platform, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, Image, Keyboard, Platform, SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Entypo from 'react-native-vector-icons/Entypo';
 import axios from 'axios';
 import { useRecoilValue } from "recoil";
@@ -38,25 +38,24 @@ export default function MapCertScreen() {
     };
 
     const upload = () => {
+        console.log(imageList, data.id, data.name, text);
+        const formData = new FormData();
+        formData.append("user_id", 0);
+        formData.append("place_id", data.id);
+        formData.append("title", data.name);
+        imageList.map(v => formData.append("image", v));
+        formData.append("content", text);
         setUploadLoading(true);
-        axios.post('http://ec2-13-124-212-12.ap-northeast-2.compute.amazonaws.com:8000/stamps', {
-            "user_id": 0,
-            "place_id": 0,
-        })
-        axios.post('http://ec2-13-124-212-12.ap-northeast-2.compute.amazonaws.com:8000/boards', {
-            "user_id": 0,
-            "place_id": data.id,
-            "title": "",
-            "image": "string",
-            "content": text,
-            "created_at": new Date().toISOString().substring(0, 10),
-            "updated_at": new Date().toISOString().substring(0, 10),
-        })
+        axios.post('http://ec2-13-124-212-12.ap-northeast-2.compute.amazonaws.com:8000/boards', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
             .then(res => {
+                console.log(res);
                 setUploadLoading(false);
                 navi.replace('CertCompletionScreen');
             })
-            .catch(err => console.error(err))
+            .catch(err => {
+                console.error(err);
+                setUploadLoading(false);
+            })
     }
 
     const onPressButton = () => {
@@ -83,13 +82,19 @@ export default function MapCertScreen() {
                     <TextInput value={text} onChangeText={setText} style={{ borderWidth: 1, borderColor: '#D9D9D9', marginHorizontal: 30, borderRadius: 10, minHeight: 200, textAlignVertical: 'top', padding: 15, }}
                         multiline />
                     <TouchableOpacity onPress={uploadImage} style={{ alignSelf: 'flex-end', marginRight: 30, marginTop: 15, }}>
-                        <Text style={{ fontSize: 12, fontWeight: '600', color: '#959595' }}>이미지 추가</Text>
+                        <Text style={{ fontSize: 12, fontWeight: '600', color: '#959595', marginBottom: 10, }}>이미지 추가</Text>
                     </TouchableOpacity>
+                    {imageList.map((v, i) => <Image key={i} style={{ width: '90%', height: 250, alignSelf: 'center' }} source={{ uri: v.uri }} />)}
                 </ScrollView>
-                <TouchableOpacity style={{ backgroundColor: '#0496FF', borderRadius: 20, justifyContent: 'center', marginHorizontal: 30, position: 'absolute', bottom: 30, left: 0, right: 0 }}
-                    onPress={onPressButton}>
-                    <Text style={{ color: '#FFF', textAlign: 'center', paddingVertical: 12, fontWeight: 'bold', }}>완료</Text>
-                </TouchableOpacity>
+                <View style={{ flexDirection: 'row', marginHorizontal: 30, position: 'absolute', bottom: 30, left: 0, right: 0, alignItems: 'center' }}>
+                    <TouchableOpacity onPress={() => navi.goBack()}>
+                        <Text style={{ fontSize: 12 }}>건너뛰기</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ backgroundColor: '#0496FF', borderRadius: 20, justifyContent: 'center', flex: 1, marginLeft: 30 }}
+                        onPress={onPressButton}>
+                        <Text style={{ color: '#FFF', textAlign: 'center', paddingVertical: 12, fontWeight: 'bold', }}>완료</Text>
+                    </TouchableOpacity>
+                </View>
             </TouchableOpacity>
             <ActivityIndicator style={{ position: 'absolute', width: '100%', height: '100%', backgroundColor: '#0004', display: uploadLoading ? 'flex' : 'none' }} size='large' />
         </SafeAreaView>
