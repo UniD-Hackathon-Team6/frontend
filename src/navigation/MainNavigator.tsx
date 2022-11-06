@@ -16,7 +16,7 @@ const Stack = createStackNavigator();
 export default function MainNavigator() {
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="MainTabNavigator" component={MainTabNavigator} />
+            {/* <Stack.Screen name="MainTabNavigator" component={MainTabNavigator} /> */}
             <Stack.Screen name="MapCertScreen" component={MapCertScreen} />
             <Stack.Screen name="CertCompletionScreen" component={CertCompletionScreen} />
         </Stack.Navigator>
