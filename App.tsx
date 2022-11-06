@@ -1,14 +1,14 @@
-import React from "react";
+import React from 'react';
 import 'react-native-gesture-handler';
-import { NavigationContainer } from '@react-navigation/native';
-import MainNavigator from "./src/navigation/MainNavigator";
-import { RecoilRoot } from 'recoil';
+import {NavigationContainer} from '@react-navigation/native';
+import {RecoilRoot} from 'recoil';
+import LoginScreen from './src/login/LoginScreen';
 
 export default function App() {
   return (
     <RecoilRoot>
       <NavigationContainer>
-        <MainNavigator />
+        <LoginScreen />
       </NavigationContainer>
     </RecoilRoot>
   );
