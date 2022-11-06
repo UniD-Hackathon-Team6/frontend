@@ -1,8 +1,30 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList, Image, SafeAreaView, Text, View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
+import axios from 'axios';
 
 export default function CommunityScreen() {
+  const [boards, setBoards] = useState([]);
+  const fetchBoards = async () => {
+    try {
+      const b = await axios.get(
+        'http://ec2-13-124-212-12.ap-northeast-2.compute.amazonaws.com:8000/boards?user_id=1',
+        {
+          headers: {
+            accept: 'application/json',
+            'access-token':
+              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjI1Mzg2MDE4MzksInN1YiI6Imp5bnNAbmF2ZXIuY29tIn0.FXALp6EHUgEjdbL5rkjYX-Sz6I0Hf5ph-9KVXVduEG0',
+          },
+        },
+      );
+      setBoards(b.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  useEffect(() => {
+    fetchBoards();
+  }, []);
   return (
     <View>
       <Text
@@ -16,34 +38,26 @@ export default function CommunityScreen() {
         게시판
       </Text>
       <FlatList
-        data={[
-          {
-            title: 'This is title',
-            address: '서울특별시 송파구 블라블라',
-            image: '1',
-            nickname: 'a',
-            likes: 30,
-            content:
-              'blablablablablablablablablablablablablablablablablablablablablablablablablablablablablabla',
-            created_at: Date(),
-          },
-        ]}
+        data={boards}
         renderItem={({item}) => (
           <View
             style={{
               borderBottomWidth: 1,
               display: 'flex',
-              justifyContent: 'space-between',
               alignItems: 'center',
               flexDirection: 'row',
               padding: 20,
             }}>
-            <Image source={{uri: item.image}} style={{marginRight: 40}} />
+            <Image
+              source={{uri: item.image}}
+              style={{marginRight: 20, width: 100, height: 100}}
+            />
             <View>
               <View
                 style={{
                   display: 'flex',
                   justifyContent: 'space-between',
+                  width: 250,
                   alignItems: 'center',
                   flexDirection: 'row',
                 }}>
@@ -57,14 +71,25 @@ export default function CommunityScreen() {
                     borderRadius: 8,
                     width: 72,
                     height: 36,
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexDirection: 'row',
                   }}>
-                  <Image style={{marginRight: 12}} />
+                  <Image
+                    style={{
+                      width: 24,
+                      height: 24,
+                      marginLeft: 10,
+                      marginRight: 16,
+                    }}
+                    source={{
+                      uri: 'https://cdn-icons-png.flaticon.com/512/1077/1077035.png',
+                    }}
+                  />
                   <Text
                     style={{
                       fontSize: 20,
-                      paddingRight: 12,
                       textAlign: 'right',
-                      paddingVertical: 6,
                     }}>
                     {item.likes}
                   </Text>
